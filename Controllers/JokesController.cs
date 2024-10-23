@@ -33,9 +33,9 @@ namespace LearningJokesWebApp.Controllers
         }
 
         // POST: ShowSearchResults
-        public async Task <IActionResult> ShowSearchResults(string SearchPhrase)
+        public async Task<IActionResult> ShowSearchResults(string SearchPhrase)
         {
-            return View ("Index", await _context.Joke.Where(j => j.JokeQuestions.Contains(SearchPhrase)).ToListAsync());
+            return View("Index", await _context.Joke.Where(j => j.JokeQuestions.Contains(SearchPhrase)).ToListAsync());
         }
 
         // GET: Jokes/Details/5
@@ -58,7 +58,7 @@ namespace LearningJokesWebApp.Controllers
 
 
         // GET: Jokes/Create
-        [Authorize]
+        
         public IActionResult Create()
         {
             return View();
