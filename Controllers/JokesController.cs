@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LearningJokesWebApp.Data;
@@ -25,6 +26,18 @@ namespace LearningJokesWebApp.Controllers
             return View(await _context.Joke.ToListAsync());
         }
 
+        // GET: ShowSearchForm
+        public async Task<IActionResult> ShowSearchForm()
+        {
+            return View();
+        }
+
+        // POST: ShowSearchResults
+        public async Task <IActionResult> ShowSearchResults(string SearchPhrase)
+        {
+            return View ("Index", await _context.Joke.Where(j => j.JokeQuestions.Contains(SearchPhrase)).ToListAsync());
+        }
+
         // GET: Jokes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -43,7 +56,9 @@ namespace LearningJokesWebApp.Controllers
             return View(joke);
         }
 
+
         // GET: Jokes/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -52,6 +67,7 @@ namespace LearningJokesWebApp.Controllers
         // POST: Jokes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,JokeQuestions,JokeAnswers")] Joke joke)
